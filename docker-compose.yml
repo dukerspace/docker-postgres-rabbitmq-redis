@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
     redis:
         image: redis:3.0.7
@@ -8,7 +8,6 @@ services:
             - "6379:6379"
         volumes:
             - redis-data:/var/lib/redis
-
     rabbitmq:
         build: rabbitmq/
         restart: always
@@ -19,7 +18,17 @@ services:
             - "15672:15672"
         volumes:
             - rabbitmq-data:/var/lib/rabbitmq
+            - ./rabbitmq/setup/:/setup
         tty: true
+        environment:
+            - RABBIT_HOST=${RABBIT_HOST}
+            - RABBIT_PORT=${RABBIT_PORT}
+            - RABBITMQ_DEFAULT_USER=${RABBIT_SUPER_USER}
+            - RABBITMQ_DEFAULT_PASS=${RABBIT_SUPER_PASSWORD}
+            - RABBITMQ_DEFAULT_VHOST=${RABBIT_VHOST}
+            - RABBITMQ_SUB_USER=${RABBIT_SUP_USER}
+            - RABBITMQ_SUB_PASS=${RABBIT_SUP_PASSWORD}
+            - RABBITMQ_TAG=${RABBITMQ_TAG}
     postgres:
         image: postgres:9.5.2
         restart: always
