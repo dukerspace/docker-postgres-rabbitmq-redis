@@ -10,4 +10,6 @@ WORKDIR /
 COPY rabbitmqadmin /usr/bin/rabbitmqadmin
 COPY rmq-setup.sh /rmq-setup.sh
 
+CMD ["rabbitmq-server"]
+
 EXPOSE 4369 5671 5672 25672 15671 15672
