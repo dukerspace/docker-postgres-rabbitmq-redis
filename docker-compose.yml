@@ -1,13 +1,16 @@
 version: '3'
 services:
     redis:
-        image: redis:3.0.7
+        image: redis:latest
         restart: always
         hostname: redis
         ports:
             - "6379:6379"
+        command: redis-server /usr/local/etc/redis/redis.conf
         volumes:
-            - redis-data:/var/lib/redis
+            - ./redis/dump.rdb:/data/dump.rdb
+            - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+        tty: true
     rabbitmq:
         build: rabbitmq/
         restart: always
